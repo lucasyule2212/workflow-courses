@@ -4,7 +4,7 @@ import { QueryType } from './queries/QueryType';
 
 const schema = new GraphQLSchema({
   query: QueryType,
-  // mutation: MutationType,
+  mutation: MutationType,
 });
 
 export default schema;

@@ -5,6 +5,6 @@ export const MutationType = new GraphQLObjectType({
   name: 'Mutation',
   description: 'MutationType',
   fields: () => ({
-    CreateStudent,
+    createStudent: CreateStudent,
   }),
 });

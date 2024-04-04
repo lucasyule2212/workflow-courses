@@ -9,19 +9,19 @@ export const CourseType: GraphQLObjectType<Course> = new GraphQLObjectType({
   fields: () => ({
     id: globalIdField('Course'),
     title: {
-      type: GraphQLNonNull(GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       resolve: ({ title }) => title,
     },
     slug: {
-      type: GraphQLNonNull(GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       resolve: ({ slug }) => slug,
     },
     createdAt: {
-      type: GraphQLNonNull(GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       resolve: ({ createdAt }) => createdAt,
     },
     updatedAt: {
-      type: GraphQLNonNull(GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       resolve: ({ updatedAt }) => updatedAt,
     },
   }),

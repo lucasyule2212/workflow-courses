@@ -1,10 +1,10 @@
 import { prisma } from '@/services/prisma';
-import { Student } from '@prisma/client';
 import { GraphQLNonNull, GraphQLString } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
+import { ObjectId } from 'mongodb';
 import { StudentType } from '../types/student-type';
 
-export const CreateStudent = mutationWithClientMutationId<Student>({
+export const CreateStudent = mutationWithClientMutationId({
   name: 'CreateStudent',
   description: 'Create a new student',
   inputFields: {
@@ -15,31 +15,27 @@ export const CreateStudent = mutationWithClientMutationId<Student>({
       type: new GraphQLNonNull(GraphQLString),
     },
   },
+  outputFields: {
+    student: {
+      type: StudentType,
+      resolve: ({ studentId }) => {
+        const student = prisma.student.findUnique({
+          where: { id: studentId },
+        });
+
+        return student;
+      },
+    },
+  },
   mutateAndGetPayload: async ({ name, email }) => {
-    const newStudent = { name, email };
+    const newStudent = { id: new ObjectId().toString(), name, email };
 
     const createdStudent = await prisma.student.create({
       data: newStudent,
     });
 
     return {
-      message: 'Success',
-      data: createdStudent,
-      error: null,
+      studentId: createdStudent.id,
     };
-  },
-  outputFields: {
-    message: {
-      type: GraphQLString,
-      resolve: ({ message }) => message,
-    },
-    data: {
-      type: StudentType,
-      resolve: ({ data }) => data,
-    },
-    error: {
-      type: GraphQLString,
-      resolve: ({ error }) => error,
-    },
   },
 });

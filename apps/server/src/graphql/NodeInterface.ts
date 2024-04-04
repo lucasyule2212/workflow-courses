@@ -20,8 +20,6 @@ const { nodeField, nodesField, nodeInterface } = nodeDefinitions(
     return null;
   },
   (obj) => {
-    console.log({ obj });
-
     if ('email' in obj) return StudentType;
     return null;
   },

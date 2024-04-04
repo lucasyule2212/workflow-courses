@@ -17,7 +17,7 @@ export const QueryType = new GraphQLObjectType({
     nodes: NodesField,
     student: {
       type: StudentType,
-      args: { id: { type: GraphQLNonNull(GraphQLID) } },
+      args: { id: { type: new GraphQLNonNull(GraphQLID) } },
       resolve: async (_, args) => {
         const student = await prisma.student.findUnique({
           where: { id: fromGlobalId(args.id).id },
@@ -26,7 +26,7 @@ export const QueryType = new GraphQLObjectType({
       },
     },
     students: {
-      type: GraphQLList(StudentType),
+      type: new GraphQLList(StudentType),
       resolve: async () => {
         const students = await prisma.student.findMany();
         return students;
