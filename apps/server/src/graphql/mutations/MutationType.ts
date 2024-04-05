@@ -1,4 +1,5 @@
 import { GraphQLObjectType } from 'graphql';
+import { CreateCourse } from './create-course';
 import { CreateStudent } from './create-student';
 
 export const MutationType = new GraphQLObjectType({
@@ -6,5 +7,6 @@ export const MutationType = new GraphQLObjectType({
   description: 'MutationType',
   fields: () => ({
     createStudent: CreateStudent,
+    createCourse: CreateCourse,
   }),
 });
