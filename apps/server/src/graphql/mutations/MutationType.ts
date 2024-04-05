@@ -9,5 +9,6 @@ export const MutationType = new GraphQLObjectType({
     createStudent: CreateStudent,
     createCourse: CreateCourse,
     deleteStudent: DeleteStudent,
+    deleteCourse: DeleteCourse,
   }),
 });
