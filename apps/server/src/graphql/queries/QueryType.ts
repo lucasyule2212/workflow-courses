@@ -7,6 +7,7 @@ import {
 } from 'graphql';
 import { fromGlobalId } from 'graphql-relay';
 import { NodeField, NodesField } from '../NodeInterface';
+import { CourseType } from '../types/course-type';
 import { StudentType } from '../types/student-type';
 
 export const QueryType = new GraphQLObjectType({
@@ -30,6 +31,23 @@ export const QueryType = new GraphQLObjectType({
       resolve: async () => {
         const students = await prisma.student.findMany();
         return students;
+      },
+    },
+    course: {
+      type: CourseType,
+      args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+      resolve: async (_, args) => {
+        const course = await prisma.course.findUnique({
+          where: { id: fromGlobalId(args.id).id },
+        });
+        return course;
+      },
+    },
+    courses: {
+      type: new GraphQLList(CourseType),
+      resolve: async () => {
+        const courses = await prisma.course.findMany();
+        return courses;
       },
     },
   }),
