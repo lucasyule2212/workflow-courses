@@ -1,26 +1,32 @@
 import { prisma } from '@/services/prisma';
 import { fromGlobalId, nodeDefinitions } from 'graphql-relay';
-import { StudentType } from './types/student-type';
 
 const { nodeField, nodesField, nodeInterface } = nodeDefinitions(
   async (globalId: string) => {
     // This is a particularity of the Relay GraphQL server implementation
     const { id, type } = fromGlobalId(globalId);
 
-    if (type === 'Student') {
-      const node = await prisma.student.findUnique({
-        where: {
-          id,
-        },
-      });
+    switch (type) {
+      case 'Student':
+        return await prisma.student.findUnique({
+          where: {
+            id,
+          },
+        });
+      case 'Course':
+        return await prisma.course.findUnique({
+          where: {
+            id,
+          },
+        });
 
-      return node;
+      default:
+        break;
     }
-
-    return null;
   },
   (obj) => {
-    if ('email' in obj) return StudentType;
+    if ('email' in obj) return 'Student';
+    if ('slug' in obj) return 'Course';
     return null;
   },
 );
