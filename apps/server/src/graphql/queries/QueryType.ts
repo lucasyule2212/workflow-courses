@@ -8,6 +8,7 @@ import {
 import { fromGlobalId } from 'graphql-relay';
 import { NodeField, NodesField } from '../NodeInterface';
 import { CourseType } from '../types/course-type';
+import { EnrollmentType } from '../types/enrollment-type';
 import { StudentType } from '../types/student-type';
 
 export const QueryType = new GraphQLObjectType({
@@ -48,6 +49,59 @@ export const QueryType = new GraphQLObjectType({
       resolve: async () => {
         const courses = await prisma.course.findMany();
         return courses;
+      },
+    },
+    enrollments: {
+      type: new GraphQLList(EnrollmentType),
+      resolve: async () => {
+        const enrollments = await prisma.enrollment.findMany({
+          orderBy: { createdAt: 'desc' },
+          select: {
+            id: true,
+            student: true,
+            course: true,
+            createdAt: true,
+            updatedAt: true,
+            cancelledAt: true,
+          },
+        });
+        return enrollments;
+      },
+    },
+    activeEnrollments: {
+      type: new GraphQLList(EnrollmentType),
+      resolve: async () => {
+        const enrollments = await prisma.enrollment.findMany({
+          where: { cancelledAt: null },
+          orderBy: { createdAt: 'desc' },
+          select: {
+            id: true,
+            student: true,
+            course: true,
+            createdAt: true,
+            updatedAt: true,
+            cancelledAt: true,
+          },
+        });
+        return enrollments;
+      },
+    },
+    inactivatedEnrollments: {
+      type: new GraphQLList(EnrollmentType),
+      resolve: async () => {
+        const enrollments = await prisma.enrollment.findMany({
+          where: { cancelledAt: { not: null } },
+          orderBy: { createdAt: 'desc' },
+          select: {
+            id: true,
+            student: true,
+            course: true,
+            createdAt: true,
+            updatedAt: true,
+            cancelledAt: true,
+          },
+        });
+        return enrollments;
       },
     },
   }),
