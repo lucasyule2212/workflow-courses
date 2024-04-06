@@ -1,5 +1,6 @@
 import { GraphQLObjectType } from 'graphql';
 import { CreateCourse } from './create-course';
+import { CreateEnrollment } from './create-enrollment';
 import { CreateStudent } from './create-student';
 import { DeleteStudent } from './delete-student';
 import { DeleteCourse } from './delete-course';
@@ -16,5 +17,6 @@ export const MutationType = new GraphQLObjectType({
     deleteCourse: DeleteCourse,
     updateCourse: UpdateCourse,
     updateStudent: UpdateStudent,
+    createEnrollment: CreateEnrollment,
   }),
 });
