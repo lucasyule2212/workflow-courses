@@ -15,7 +15,9 @@ const router = new Router();
 const graphqlServer = graphqlHTTP({ schema, graphiql: true });
 router.all('/graphql', bodyParser(), graphqlServer);
 
-app.listen(env.PORT);
+app.listen(env.PORT, () => {
+  console.log(`Server running at ${env.PORT} 🚀`);
+});
 app.use(graphqlServer);
 app.use(logger());
 app.use(cors());
