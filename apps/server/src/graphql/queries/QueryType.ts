@@ -56,13 +56,9 @@ export const QueryType = new GraphQLObjectType({
       resolve: async () => {
         const enrollments = await prisma.enrollment.findMany({
           orderBy: { createdAt: 'desc' },
-          select: {
-            id: true,
-            student: true,
+          include: {
             course: true,
-            createdAt: true,
-            updatedAt: true,
-            cancelledAt: true,
+            student: true,
           },
         });
         return enrollments;
@@ -74,13 +70,9 @@ export const QueryType = new GraphQLObjectType({
         const enrollments = await prisma.enrollment.findMany({
           where: { cancelledAt: null },
           orderBy: { createdAt: 'desc' },
-          select: {
-            id: true,
-            student: true,
+          include: {
             course: true,
-            createdAt: true,
-            updatedAt: true,
-            cancelledAt: true,
+            student: true,
           },
         });
         return enrollments;
@@ -92,13 +84,9 @@ export const QueryType = new GraphQLObjectType({
         const enrollments = await prisma.enrollment.findMany({
           where: { cancelledAt: { not: null } },
           orderBy: { createdAt: 'desc' },
-          select: {
-            id: true,
-            student: true,
+          include: {
             course: true,
-            createdAt: true,
-            updatedAt: true,
-            cancelledAt: true,
+            student: true,
           },
         });
         return enrollments;

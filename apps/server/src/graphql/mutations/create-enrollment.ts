@@ -21,13 +21,9 @@ export const CreateEnrollment = mutationWithClientMutationId({
       resolve: async ({ enrollmentId }) => {
         const enrollment = await prisma.enrollment.findUnique({
           where: { id: enrollmentId },
-          select: {
-            id: true,
-            student: true,
+          include: {
             course: true,
-            createdAt: true,
-            updatedAt: true,
-            cancelledAt: true,
+            student: true,
           },
         });
 
