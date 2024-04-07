@@ -19,6 +19,12 @@ const { nodeField, nodesField, nodeInterface } = nodeDefinitions(
             id,
           },
         });
+      case 'Enrollment':
+        return await prisma.enrollment.findUnique({
+          where: {
+            id,
+          },
+        });
 
       default:
         break;
@@ -27,6 +33,7 @@ const { nodeField, nodesField, nodeInterface } = nodeDefinitions(
   (obj) => {
     if ('email' in obj) return 'Student';
     if ('slug' in obj) return 'Course';
+    if ('cancelledAt' in obj) return 'Enrollment';
     return null;
   },
 );
