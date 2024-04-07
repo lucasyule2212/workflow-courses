@@ -1,4 +1,3 @@
-import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { Metadata } from "next";
 import CoursesComponent from "./courses-component";
 
@@ -6,7 +5,7 @@ export const metadata: Metadata = {
   title: "Home - Workflow",
 };
 
-export default withPageAuthRequired(async function Home() {
+export default async function Home() {
   return (
     <main>
       <div className="relative overflow-hidden ">
@@ -24,4 +23,4 @@ export default withPageAuthRequired(async function Home() {
       </div>
     </main>
   );
-});
+}

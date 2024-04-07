@@ -1,6 +1,5 @@
 "use client";
 import { PurchaseButton } from "@/components/courses/purchase-button";
-import { useGetProductsQuery } from "@/graphql/generated/graphql";
 import { Skeleton } from "@repo/ui/components/ui/skeleton";
 
 function CoursesComponent() {
