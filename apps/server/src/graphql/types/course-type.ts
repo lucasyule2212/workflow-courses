@@ -1,9 +1,13 @@
+import { prisma } from '@/services/prisma';
 import { Course } from '@prisma/client';
 import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
-import { connectionArgs, globalIdField } from 'graphql-relay';
+import {
+  connectionArgs,
+  connectionFromPromisedArray,
+  globalIdField,
+} from 'graphql-relay';
 import { NodeInterface } from '../NodeInterface';
 import { EnrollmentConnection } from './enrollment-type';
-import { prisma } from '@/services/prisma';
 
 export const CourseType: GraphQLObjectType<Course> = new GraphQLObjectType({
   name: 'Course',
@@ -29,11 +33,17 @@ export const CourseType: GraphQLObjectType<Course> = new GraphQLObjectType({
     enrolledOn: {
       type: EnrollmentConnection,
       args: connectionArgs,
-      resolve: async (course, args) =>
-        await prisma.enrollment.findMany({
+      resolve: async (course, args) => {
+        const courses = prisma.enrollment.findMany({
           where: { courseId: course.id },
-          ...args,
-        }),
+          include: {
+            course: true,
+            student: true,
+          },
+        });
+
+        return connectionFromPromisedArray(courses, args);
+      },
     },
   }),
   interfaces: () => [NodeInterface],
