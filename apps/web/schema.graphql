@@ -1,0 +1,145 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  node(id: ID!): Node
+  nodes(ids: [ID!]!): [Node]!
+  student(id: ID!): Student
+  students: [Student]
+  course(id: ID!): Course
+  courses: [Course]
+  activeEnrollments: [Enrollment]
+  inactivatedEnrollments: [Enrollment]
+}
+
+type Mutation {
+  createCourse(input: CreateCourseInput!): CreateCoursePayload
+  createEnrollment(input: CreateEnrollmentInput!): CreateEnrollmentPayload
+  createStudent(input: CreateStudentInput!): CreateStudentPayload
+  deleteCourse(input: DeleteCourseInput!): DeleteCoursePayload
+  deleteStudent(input: DeleteStudentInput!): DeleteStudentPayload
+  inactivateEnrollment(
+    input: InactivateEnrollmentInput!
+  ): InactivateEnrollmentPayload
+  updateCourse(input: UpdateCourseInput!): UpdateCoursePayload
+  updateStudent(input: UpdateStudentInput!): UpdateStudentPayload
+}
+
+interface Node {
+  id: ID!
+}
+
+type Student implements Node {
+  id: ID!
+  name: String!
+  email: String!
+  createdAt: String!
+  updatedAt: String!
+  enrollments: EnrollmentConnection
+}
+
+type Course implements Node {
+  id: ID!
+  title: String!
+  slug: String!
+  createdAt: String!
+  updatedAt: String!
+  enrolledOn: EnrollmentConnection
+}
+
+type Enrollment implements Node {
+  id: ID!
+  student: Student!
+  course: Course!
+  createdAt: String!
+  updatedAt: String!
+  cancelledAt: String
+}
+
+type EnrollmentConnection {
+  edges: [EnrollmentEdge]
+  pageInfo: PageInfo!
+}
+
+type EnrollmentEdge {
+  node: Enrollment
+  cursor: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+input CreateCourseInput {
+  title: String!
+}
+
+type CreateCoursePayload {
+  course: Course
+}
+
+input CreateEnrollmentInput {
+  studentId: ID!
+  courseId: ID!
+}
+
+type CreateEnrollmentPayload {
+  enrollment: Enrollment
+}
+
+input CreateStudentInput {
+  name: String!
+  email: String!
+}
+
+type CreateStudentPayload {
+  student: Student
+}
+
+input DeleteCourseInput {
+  id: ID!
+}
+
+type DeleteCoursePayload {
+  course: Course
+}
+
+input DeleteStudentInput {
+  id: ID!
+}
+
+type DeleteStudentPayload {
+  student: Student
+}
+
+input InactivateEnrollmentInput {
+  enrollmentId: ID!
+}
+
+type InactivateEnrollmentPayload {
+  enrollmentId: ID
+}
+
+input UpdateCourseInput {
+  courseId: ID!
+  title: String!
+}
+
+type UpdateCoursePayload {
+  course: Course
+}
+
+input UpdateStudentInput {
+  studentId: ID!
+  name: String!
+  email: String!
+}
+
+type UpdateStudentPayload {
+  student: Student
+}
