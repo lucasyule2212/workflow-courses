@@ -11,4 +11,11 @@ module.exports = {
       },
     ],
   },
+  compiler: {
+    relay: {
+      src: "./",
+      language: "typescript",
+      artifactDirectory: "__generated__",
+    },
+  },
 };
