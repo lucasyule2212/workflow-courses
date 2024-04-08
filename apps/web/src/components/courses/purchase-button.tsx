@@ -1,4 +1,3 @@
-import { useCreatePurchaseMutation } from "@/graphql/generated/graphql";
 import { Button } from "@repo/ui/components/ui/button";
 import { Spinner } from "@repo/ui/components/ui/spinner";
 import { toast } from "sonner";
@@ -7,20 +6,11 @@ interface PurchaseButtonProps {
   productId: string;
 }
 export function PurchaseButton({ productId }: PurchaseButtonProps) {
-  const [createPurchase, { loading: createPurchasMutationLoading }] =
-    useCreatePurchaseMutation({
-      variables: {
-        productId: "",
-      },
-    });
-
+  const loading = false;
   async function handlePurchaseProduct(productId: string) {
     try {
-      await createPurchase({
-        variables: {
-          productId,
-        },
-      });
+      console.log("Enrolling in course with id: ", productId);
+
       toast.success("Enrollment successful! 🎉");
     } catch (error) {
       toast.error("You are already enrolled in this course.");
@@ -32,7 +22,7 @@ export function PurchaseButton({ productId }: PurchaseButtonProps) {
       onClick={() => handlePurchaseProduct(productId)}
       className="ring-1 ring-cyan-700 bg-slate-950 w-24"
     >
-      {createPurchasMutationLoading ? <Spinner /> : "Enroll"}
+      {loading ? <Spinner /> : "Enroll"}
     </Button>
   );
 }

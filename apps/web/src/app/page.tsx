@@ -1,5 +1,4 @@
 // import { withApollo } from '@/lib/withApolloClient';
-import { getSession } from "@auth0/nextjs-auth0";
 import {
   Banknote as CashIcon,
   MessageSquare as ChatIcon,
@@ -53,17 +52,7 @@ const advantages = [
   },
 ];
 
-// export async function handleAuth(req: NextRequest, res: NextResponse) {
-//   const session = await getSession(req, res);
-
-//   if (session) {
-//     redirect("/home");
-//   }
-// }
-
 async function Home() {
-  // await handleAuth(req, res);
-
   return (
     <>
       <div className="bg-slate-950">
